@@ -4,8 +4,11 @@ import Layout from '@/components/layout/Layout';
 import { Helmet } from 'react-helmet';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertCircle, Award, Check, Heart, Users } from 'lucide-react';
+import { getContent } from '@/utils/contentLoader';
 
 const AboutPage = () => {
+  const content = getContent('about');
+  
   return (
     <Layout>
       <Helmet>
@@ -15,7 +18,9 @@ const AboutPage = () => {
       
       <div className="py-12 md:py-20 bg-white">
         <div className="container-blog">
-          <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">About MinimaBlog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">
+            {content?.title || 'About MinimaBlog'}
+          </h1>
           
           {/* WordPress-like content area with sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -33,27 +38,23 @@ const AboutPage = () => {
                 <CardContent className="pt-6">
                   <div className="prose max-w-none">
                     <p className="lead text-xl text-blog-secondary mb-6">
-                      MinimaBlog is a simple, clean WordPress theme designed for bloggers who appreciate minimalism and readability.
+                      {content?.intro || 'MinimaBlog is a simple, clean WordPress theme designed for bloggers who appreciate minimalism and readability.'}
                     </p>
                     
                     <h2 className="text-2xl font-semibold mt-10 mb-4">Our Story</h2>
                     <p>
-                      Founded in 2023, MinimaBlog was created with a singular mission: to provide bloggers with a clean, 
-                      distraction-free platform that puts content first. We believe that good design gets out of the way, 
-                      allowing your words and images to capture your reader's attention.
+                      {content?.story || 'Founded in 2023, MinimaBlog was created with a singular mission: to provide bloggers with a clean, distraction-free platform that puts content first. We believe that good design gets out of the way, allowing your words and images to capture your reader\'s attention.'}
                     </p>
                     
                     <h2 className="text-2xl font-semibold mt-10 mb-4">Our Philosophy</h2>
                     <p>
-                      In today's world of cluttered websites and intrusive advertisements, we wanted to create something different. 
-                      MinimaBlog embodies our belief that simplicity leads to better reading experiences and stronger connections 
-                      between authors and their audiences.
+                      {content?.philosophy || 'In today\'s world of cluttered websites and intrusive advertisements, we wanted to create something different. MinimaBlog embodies our belief that simplicity leads to better reading experiences and stronger connections between authors and their audiences.'}
                     </p>
                     
                     <div className="my-12 p-6 bg-blog-light rounded-lg border border-blog-border">
                       <blockquote className="italic border-l-4 border-blog-accent pl-4 py-2">
-                        "Simplicity is the ultimate sophistication. Good design is as little design as possible."
-                        <footer className="text-blog-secondary mt-2">— Dieter Rams</footer>
+                        "{content?.quote || 'Simplicity is the ultimate sophistication. Good design is as little design as possible.'}"
+                        <footer className="text-blog-secondary mt-2">— {content?.quoteAuthor || 'Dieter Rams'}</footer>
                       </blockquote>
                     </div>
                     
