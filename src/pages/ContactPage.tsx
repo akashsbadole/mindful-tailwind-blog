@@ -1,46 +1,21 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Mail, MapPin, Phone } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 const ContactPage = () => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message Sent",
-        description: "Thank you for your message. We'll get back to you soon.",
-      });
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      setIsSubmitting(false);
-    }, 1000);
+    toast({
+      title: "Message sent!",
+      description: "We'll get back to you as soon as possible.",
+    });
   };
 
   return (
@@ -54,112 +29,106 @@ const ContactPage = () => {
         <div className="container-blog">
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">Contact Us</h1>
           
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              <div className="bg-blog-light p-6 rounded-lg text-center">
-                <div className="mx-auto mb-4 h-12 w-12 flex items-center justify-center rounded-full bg-blog-accent/10">
-                  <Mail className="h-6 w-6 text-blog-accent" />
-                </div>
-                <h3 className="font-medium text-lg mb-2">Email Us</h3>
-                <p className="text-blog-secondary mb-2">Our friendly team is here to help.</p>
-                <a href="mailto:hello@minimablog.com" className="blog-link">hello@minimablog.com</a>
-              </div>
-              
-              <div className="bg-blog-light p-6 rounded-lg text-center">
-                <div className="mx-auto mb-4 h-12 w-12 flex items-center justify-center rounded-full bg-blog-accent/10">
-                  <MapPin className="h-6 w-6 text-blog-accent" />
-                </div>
-                <h3 className="font-medium text-lg mb-2">Office</h3>
-                <p className="text-blog-secondary mb-2">Come say hello at our office.</p>
-                <p className="text-blog-primary">123 Sample St, San Francisco, CA 94105</p>
-              </div>
-              
-              <div className="bg-blog-light p-6 rounded-lg text-center">
-                <div className="mx-auto mb-4 h-12 w-12 flex items-center justify-center rounded-full bg-blog-accent/10">
-                  <Phone className="h-6 w-6 text-blog-accent" />
-                </div>
-                <h3 className="font-medium text-lg mb-2">Phone</h3>
-                <p className="text-blog-secondary mb-2">Mon-Fri from 8am to 5pm.</p>
-                <a href="tel:+15555555555" className="blog-link">+1 (555) 555-5555</a>
-              </div>
-            </div>
-            
-            <div className="bg-white border border-blog-border rounded-lg p-8">
-              <h2 className="text-2xl font-semibold mb-6">Send us a Message</h2>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="mx-auto max-w-3xl">
+            <div className="bg-blog-light p-8 rounded-lg mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">Get In Touch</h3>
+                  <p className="text-blog-secondary">
+                    Have questions about MinimaBlog? Want to collaborate? 
+                    Drop us a message and we'll get back to you shortly.
+                  </p>
                   <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-medium text-blog-primary">
+                    <p className="font-medium">Email</p>
+                    <p className="text-blog-secondary">hello@minimablog.com</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="font-medium">Social Media</p>
+                    <div className="flex space-x-4">
+                      <a href="#" className="text-blog-secondary hover:text-blog-accent">Twitter</a>
+                      <a href="#" className="text-blog-secondary hover:text-blog-accent">Instagram</a>
+                      <a href="#" className="text-blog-secondary hover:text-blog-accent">Facebook</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-1">
                       Your Name
                     </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
+                    <Input 
+                      id="name" 
+                      type="text" 
+                      placeholder="John Doe" 
                       required
-                      className="w-full"
-                      aria-describedby="name-required"
                     />
                   </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-medium text-blog-primary">
-                      Email Address
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium mb-1">
+                      Your Email
                     </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      placeholder="john@example.com" 
                       required
-                      className="w-full"
-                      aria-describedby="email-required"
                     />
                   </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="subject" className="block text-sm font-medium text-blog-primary">
-                    Subject
-                  </label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="message" className="block text-sm font-medium text-blog-primary">
-                    Your Message
-                  </label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                  />
-                </div>
-                
-                <div className="pt-2">
-                  <Button 
-                    type="submit" 
-                    className="blog-btn px-8 py-2.5"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium mb-1">
+                      Subject
+                    </label>
+                    <Input 
+                      id="subject" 
+                      type="text" 
+                      placeholder="How can we help?" 
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium mb-1">
+                      Message
+                    </label>
+                    <Textarea 
+                      id="message" 
+                      placeholder="Your message here..." 
+                      className="min-h-[120px]"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="blog-btn w-full">
+                    Send Message
                   </Button>
+                </form>
+              </div>
+              
+              <div className="border-t border-blog-border pt-8">
+                <h3 className="text-xl font-semibold mb-4">Frequently Asked Questions</h3>
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="font-medium mb-2">Is MinimaBlog free to use?</h4>
+                    <p className="text-blog-secondary">
+                      Yes, MinimaBlog is completely free to use for personal blogs. For commercial use, 
+                      please check our licensing terms.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Do I need to credit MinimaBlog on my site?</h4>
+                    <p className="text-blog-secondary">
+                      While not required, we appreciate if you keep the footer credit link. It helps us 
+                      grow and continue improving the theme.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Can I customize MinimaBlog?</h4>
+                    <p className="text-blog-secondary">
+                      Absolutely! MinimaBlog is highly customizable using WordPress customizer and 
+                      additional CSS if needed.
+                    </p>
+                  </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
