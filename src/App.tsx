@@ -11,6 +11,8 @@ import AuthorPage from "./pages/AuthorPage";
 import CategoryPage from "./pages/CategoryPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import AuthorsPage from "./pages/AuthorsPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const queryClient = new QueryClient();
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/authors" element={<AuthorsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
