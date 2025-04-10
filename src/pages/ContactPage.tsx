@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { getContent } from '@/utils/contentLoader';
-import { handleContactSubmission } from '@/api/mockContactApi';
+import { handleContactSubmission, ContactFormData } from '@/api/mockContactApi';
 import {
   Form,
   FormControl,
@@ -50,7 +50,15 @@ const ContactPage = () => {
     setIsSubmitting(true);
     
     try {
-      const success = await handleContactSubmission(values);
+      // Ensure we pass all required fields from the contact form data
+      const contactData: ContactFormData = {
+        name: values.name,
+        email: values.email,
+        subject: values.subject,
+        message: values.message,
+      };
+      
+      const success = await handleContactSubmission(contactData);
       if (success) {
         form.reset();
       }

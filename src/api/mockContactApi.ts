@@ -1,33 +1,41 @@
 
-// This is a mock API handler
-// In a real app, this would be replaced by a server endpoint that connects to a database
-
 import { toast } from "@/hooks/use-toast";
+import prisma from "@/lib/prisma";
 
-type ContactFormData = {
+export type ContactFormData = {
   name: string;
   email: string;
   subject: string;
   message: string;
 };
 
-// Mock function to simulate API call to store data
+// Function to store form data in SQLite database using Prisma
 export const submitContactForm = async (formData: ContactFormData): Promise<boolean> => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Log the data that would be stored in the database
-  console.log('Form submission that would be stored in database:', formData);
-  
-  // Simulate email notification
-  console.log(`Email would be sent to admin with subject: "New contact form: ${formData.subject}"`);
-  
-  // In a real app with Supabase integration, we would:
-  // 1. Insert the data into a Supabase table
-  // 2. Trigger a Supabase Edge Function to send an email notification
-  
-  // Return success (in a real app, we'd check the actual database response)
-  return true;
+  try {
+    // Store the submission in the database
+    await prisma.contactSubmission.create({
+      data: {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      }
+    });
+    
+    // Log the data that would be stored
+    console.log('Form submission stored in database:', formData);
+    
+    // Simulate email notification
+    console.log(`Email would be sent to admin with subject: "New contact form: ${formData.subject}"`);
+    
+    return true;
+  } catch (error) {
+    console.error("Error storing contact submission:", error);
+    return false;
+  }
 };
 
 // Function to use in the contact form component
